@@ -6,7 +6,6 @@ require './song.rb'
 require './playlist.rb'
 
 
-
 class Jukebox
 
   def options
@@ -35,38 +34,16 @@ class Jukebox
     end
   end
 
-  def song_display
-    #header row
-    puts "\n==== AVAILABLE SONGS ===="
-    puts "#{printf("%-8s",'ID')} #{printf("%-20s",'Artist')} #{printf("%-16s",'Song Title')}"
-    #gets data via Song class method
-    Song.all_array.each do |hash|
-      puts "#{printf("%-8s",hash[:id])} #{printf("%-20s",hash[:artist])} #{printf("%-16s",hash[:title])}"
-    end
-    #footer
-    puts "=========================="
-    print "Select song: "
-  end
-
-
-  # {:id=>"1", :filename=>"lost_in_space", :title=>"Lost in Space", :played=>"0"}
-  # {:id=>"2", :filename=>"bit_adventure", :title=>"8 Bit Adventure", :played=>"0"}
-
   def select_song(input)
     begin
       selection = Song.all_array.select { |hash| hash[:id] == input.to_s}
       return_song(selection[0])
-    rescue NoMethodError => e
-      puts "Invalid song ID. Try again."
+    rescue => e
+      puts e.message
+      # puts "Invalid song ID. Try again."
       print "Selected song ID:"
       select_song(gets.to_i)
     end
-  end
-
-  def return_song(selection)
-    puts "#{selection[:artist]} - #{selection[:title]}. Great song."
-    puts "=========================="
-    add_or_return(selection[0])
   end
 
   def search_by_title
@@ -77,7 +54,7 @@ class Jukebox
     else
       puts "No match found. Try again"
       search_by_title
-    end  
+    end
   end
 
   def play(filename)
@@ -86,9 +63,24 @@ class Jukebox
     Player.stop
   end
 
-
   def play_playlist
     #possibly better to put as method of playlist
+  end
+
+  def song_display
+    puts "\n==== AVAILABLE SONGS ===="
+    puts "#{printf("%-8s",'ID')} #{printf("%-20s",'Artist')} #{printf("%-16s",'Song Title')}"
+    Song.all_array.each do |hash|
+      puts "#{printf("%-8s",hash[:id])} #{printf("%-20s",hash[:artist])} #{printf("%-16s",hash[:title])}"
+    end
+    puts "=========================="
+    print "Select song: "
+  end
+
+  def return_song(selection)
+    puts "#{selection[:artist]} - #{selection[:title]}. Great song."
+    puts "=========================="
+    add_or_return(selection)
   end
 
   def add_or_return(hash)
@@ -96,23 +88,22 @@ class Jukebox
     puts "1. Play this song now"
     puts "2. Add this song to playlist"
     puts "3. Return to the main menu"
-    print "\n"
+    print "\nSelection:"
     input = gets.to_i
     if input == 1
       play(hash[:filename])
     elsif input == 2
-      puts "**fix this part of the code**"
       playlist2 = Playlist.new
       playlist2.add_to_playlist(hash)
+
+      puts "error with adding song to playlist"
     elsif input == 3
-      puts "======== Main menu ========"
       options
     else
       puts "Not a valid option. Returning to main menu."
       options
     end
   end
-
 
 end
 

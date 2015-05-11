@@ -1,13 +1,15 @@
 class Playlist
 
+  attr_accessor :list
+
   def intialize
     @list = []
   end
 
   def add_to_playlist(hash)
     puts @list
-    puts hash
     @list << hash
+    puts @list
   end
 
   def playlist_display
