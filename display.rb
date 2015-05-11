@@ -1,0 +1,6 @@
+class JukeboxDisplay < Jukebox
+
+
+
+  
+end

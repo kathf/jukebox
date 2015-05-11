@@ -1,0 +1,55 @@
+def select_or_return
+  puts "Select a song or \"R\" to return to main menu"
+  Print "Song selection:"
+  input = gets.to_i
+  if input == 0
+    options
+  elsif input > 0 && input <= 3
+    select_song(input)
+    display
+  else
+    puts "Not a valid option. Returning to main menu."
+    options
+  end
+end
+
+
+class Song < Database
+
+  # attr_accessor :id, :filename, :title, :played
+  #
+  # def initialize(attribute)
+  #   @id = get_attribute(id)
+  #   @filename = get_attribute(filename)
+  #   @title = get_attribute(title)
+  #   @played = get_attribute(played)
+  # end
+  #
+  # def get_attribute(attrib)
+  #   all.find do |hash|
+  #     puts hash
+  #   end
+  #   # return
+  # end
+
+
+
+# attr_accesor :playlist_array
+
+# def initialize
+#   @playlist_array = []
+# end
+#
+# def playlist_display
+#   @playlist_array.each |song|
+#     p song
+#   end
+# end
+#
+# def add_to_playlist(filename)
+#
+# end
+#
+# def play_playlist
+#
+# end
