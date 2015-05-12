@@ -3,11 +3,11 @@
 # brew install mpg123
 
 class Player
-  def self.play(filename)
+  def self.play(filename, title)
     base = File.dirname(__FILE__)
     file = File.join(base, 'music', filename)
     @current_pid = fork do
-      puts "Playing #{file}."
+      puts "Now playing: #{title}."
       exec "mpg123 -q \"#{file}\""
     end
   end

@@ -1,11 +1,16 @@
 class Jukebox
 
+  def welcome
+    puts "\n************** MP3 MAGIC ***************"
+    puts "\n"
+  end
+
   def options
-    puts "==========================="
     puts "What would you like to do?"
     puts "1. View all songs"
     puts "2. Search for song by title"
     puts "3. View and play playlists"
+    puts "========================================"
     print "Selection:"
     pathway(gets.to_i)
   end
@@ -18,9 +23,10 @@ class Jukebox
     when selected_option == 2
       search_by_title
     when selected_option == 3
-      view_play_playlist(hash)
+      view_play_playlist
     else
-      puts "============= Try again ============"
+      puts "***Invalid selection. Try again."
+      puts "========================================"
       options
     end
   end
@@ -30,9 +36,8 @@ class Jukebox
       selection = Song.all_array.select { |hash| hash[:id] == input.to_s}
       return_song(selection[0])
     rescue => e
-      puts e.message
-      # puts "Invalid song ID. Try again."
-      print "Selected song ID:"
+      puts "***Invalid song ID. Try again."
+      print "Song selection: "
       select_song(gets.to_i)
     end
   end
@@ -43,70 +48,81 @@ class Jukebox
     if song_hash != nil
       return_song(song_hash)
     else
-      puts "No match found. Try again"
+      puts "***No match found. Try again"
       search_by_title
     end
   end
 
-  def play(filename)
+  def play_song(filename)
     Player.play(filename)
     sleep 20
     Player.stop
   end
 
-  def play_playlist
-    #possibly better to put as method of playlist
-  end
-
   def song_display
-    puts "\n==== AVAILABLE SONGS ===="
+    puts "========================================"
+    puts "AVAILABLE SONGS:"
     puts "#{printf("%-8s",'ID')} #{printf("%-20s",'Artist')} #{printf("%-16s",'Song Title')}"
     Song.all_array.each do |hash|
       puts "#{printf("%-8s",hash[:id])} #{printf("%-20s",hash[:artist])} #{printf("%-16s",hash[:title])}"
     end
-    puts "=========================="
-    print "Select song: "
+    puts "========================================"
+    print "Song selection: "
   end
 
   def return_song(selection)
-    puts "#{selection[:artist]} - #{selection[:title]}. Great song."
-    puts "=========================="
+    puts "#{selection[:artist]} - #{selection[:title]} \n... Great song."
     add_or_return(selection)
   end
 
   def add_or_return(hash)
-    puts "Would you like to:"
-    puts "1. Play this song now"
-    puts "2. Add this song to playlist"
-    puts "3. Return to the main menu"
-    print "\nSelection:"
+    song_options
     input = gets.to_i
     if input == 1
-      play(hash[:filename])
+      play_song(hash[:filename])
     elsif input == 2
       add_to_playlist(hash)
-      puts hash[:title] + " added."
+      options
     elsif input == 3
       options
     else
-      puts "Not a valid option. Returning to main menu."
+      puts "***Not a valid option. Returning to MAIN MENU."
       options
     end
   end
 
-  def view_play_playlist(hash)
-# need to fix up this class
+  def song_options
+    puts "========================================"
+    puts "SONG OPTIONS:"
+    puts "1. Play!"
+    puts "2. Add to playlist"
+    puts "3. Return to the MAIN MENU"
+    puts "========================================"
+    print "Selection:"
+  end
+
+  def playlist_options
+    puts "========================================"
+    puts "PLAYLIST OPTIONS:"
+    puts "1. Play!"
+    puts "2. Return to the MAIN MENU"
+    #shuffle option..?
+    puts "========================================"
+    print "Selection:"
+  end
+
+  def view_play_playlist
     playlist_display
-
-    # playlist = Playlist.new
-    # playlist.playlist_display
-    #
-    # # playlist.add_to_playlist(hash)
-    # playlist.playlist_display()
-    #
-    # song_array = playlist.add_to_playlist(hash)
-    # playlist.playlist_display(song_array)
-
+    playlist_options
+    input = gets.to_i
+    if input == 1
+      play_playlist
+    elsif input == 2
+      options
+    else
+      puts "***Not a valid option. Returning to MAIN MENU."
+      options
+    end
   end
 
 end

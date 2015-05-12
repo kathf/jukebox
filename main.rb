@@ -12,6 +12,7 @@ Database.connection(dbname: 'jukebox')
 begin
   # jukebox = Jukebox.new
   jukebox = Playlist.new
+  jukebox.welcome
   jukebox.options
 
 
