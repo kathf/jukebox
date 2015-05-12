@@ -53,3 +53,14 @@ class Song < Database
 # def play_playlist
 #
 # end
+
+
+
+def play_song(filename, title)
+  Player.play(filename, title)
+  sleep 7
+  Player.stop
+  puts "Thanks for listening. Returning to MAIN MENU."
+  puts "========================================"
+  options
+end

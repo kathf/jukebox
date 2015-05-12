@@ -31,6 +31,7 @@ class Jukebox
     end
   end
 
+#make the database do this
   def select_song(input)
     begin
       selection = Song.all_array.select { |hash| hash[:id] == input.to_s}
@@ -53,10 +54,13 @@ class Jukebox
     end
   end
 
-  def play_song(filename)
-    Player.play(filename)
-    sleep 20
-    Player.stop
+  def play_song(filename, title)
+    Player.play(filename, title)
+    sleep 7
+    Player.stop #remove stop and sleep and go to main menu - create option in main menu to stop
+    puts "Thanks for listening. Returning to MAIN MENU."
+    puts "========================================"
+    options
   end
 
   def song_display
@@ -71,7 +75,9 @@ class Jukebox
   end
 
   def return_song(selection)
+    puts "========================================"
     puts "#{selection[:artist]} - #{selection[:title]} \n... Great song."
+    puts "========================================"
     add_or_return(selection)
   end
 
@@ -79,7 +85,7 @@ class Jukebox
     song_options
     input = gets.to_i
     if input == 1
-      play_song(hash[:filename])
+      play_song(hash[:filename], hash[:title])
     elsif input == 2
       add_to_playlist(hash)
       options
@@ -92,7 +98,6 @@ class Jukebox
   end
 
   def song_options
-    puts "========================================"
     puts "SONG OPTIONS:"
     puts "1. Play!"
     puts "2. Add to playlist"
@@ -102,10 +107,10 @@ class Jukebox
   end
 
   def playlist_options
-    puts "========================================"
     puts "PLAYLIST OPTIONS:"
     puts "1. Play!"
     puts "2. Return to the MAIN MENU"
+    # puts "3. Delete playlist"
     #shuffle option..?
     puts "========================================"
     print "Selection:"

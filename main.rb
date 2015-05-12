@@ -5,7 +5,6 @@ require './player'
 require './song.rb'
 require './jukebox.rb'
 require './playlist.rb'
-################################################################
 
 Database.connection(dbname: 'jukebox')
 
@@ -14,9 +13,6 @@ begin
   jukebox = Playlist.new
   jukebox.welcome
   jukebox.options
-
-
-
-rescue PG::Error => e
-  puts e.message
+rescue
+  option
 end

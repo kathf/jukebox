@@ -1,5 +1,7 @@
 class Playlist < Jukebox
 
+#strip back playlist class to only song_array - everything else goes in jukebox class
+
   attr_reader :song_array
 
   def initialize
@@ -14,17 +16,18 @@ class Playlist < Jukebox
 
   def playlist_display
     if @song_array.size == 0
-      puts "Your playlist is currently empty \n(What's wrong... Don't you like music?)"
+      puts "Your playlist is currently empty (What's wrong... Don't you like music?)"
+      puts "========================================"
       options
     else
-      puts "========================================"
-      puts "PLAYLIST:"
-      puts "#{printf("%-8s",'Order')} #{printf("%-20s",'Artist')} #{printf("%-16s",'Song Title')}"
+      puts "==================================================|"
+      puts "PLAYLIST:                                         |"
+      puts "#{printf("%-8s",'Order')} #{printf("%-20s",'Artist')} #{printf("%-16s",'Song Title')}    |"
       @song_array.each_with_index do |hash,index|
-        puts "#{printf("%-8s",index+1)} #{printf("%-20s",hash[:artist])} #{printf("%-16s",hash[:title])}"
+        puts "#{printf("%-8s",index+1)} #{printf("%-20s",hash[:artist])} #{printf("%-16s",hash[:title])}    |"
       end
     end
-    puts "========================================"
+    puts "==================================================|"
   end
 
   def play_playlist
@@ -36,6 +39,7 @@ class Playlist < Jukebox
     end
     Player.stop
     puts "Thanks for listening. Returning to MAIN MENU."
+    options
   end
 
 end
