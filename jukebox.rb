@@ -1,11 +1,3 @@
-require 'rubygems'
-require 'pg'
-require './database.rb'
-require './player'
-require './song.rb'
-require './playlist.rb'
-
-
 class Jukebox
 
   def options
@@ -26,8 +18,7 @@ class Jukebox
     when selected_option == 2
       search_by_title
     when selected_option == 3
-      playlist1 = Playlist.new
-      playlist1.playlist_display
+      view_play_playlist(hash)
     else
       puts "============= Try again ============"
       options
@@ -93,10 +84,8 @@ class Jukebox
     if input == 1
       play(hash[:filename])
     elsif input == 2
-      playlist2 = Playlist.new
-      playlist2.add_to_playlist(hash)
-
-      puts "error with adding song to playlist"
+      add_to_playlist(hash)
+      puts hash[:title] + " added."
     elsif input == 3
       options
     else
@@ -105,21 +94,19 @@ class Jukebox
     end
   end
 
-end
+  def view_play_playlist(hash)
+# need to fix up this class
+    playlist_display
 
+    # playlist = Playlist.new
+    # playlist.playlist_display
+    #
+    # # playlist.add_to_playlist(hash)
+    # playlist.playlist_display()
+    #
+    # song_array = playlist.add_to_playlist(hash)
+    # playlist.playlist_display(song_array)
 
-################################################################
+  end
 
-Database.connection(dbname: 'jukebox')
-
-begin
-
-  jukebox = Jukebox.new
-  #display user options
-  jukebox.options
-
-
-
-rescue PG::Error => e
-  puts e.message
 end
