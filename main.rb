@@ -10,9 +10,10 @@ Database.connection(dbname: 'jukebox')
 
 begin
   # jukebox = Jukebox.new
-  jukebox = Playlist.new
+  playlist = Playlist.new
+  jukebox = Jukebox.new
   jukebox.welcome
-  jukebox.options
-rescue
-  option
+rescue => e
+  puts e.backtrace[0]
+  puts e.message
 end
